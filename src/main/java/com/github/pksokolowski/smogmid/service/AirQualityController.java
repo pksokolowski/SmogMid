@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AQService {
+public class AirQualityController {
 
     // notice the last slash character, it is there to prevent Spring from truncating the double value of the last
     // parameter, as it is expected to have a dot in it, the part after the dot would otherwise be truncated.
