@@ -5,9 +5,6 @@ import com.github.pksokolowski.smogmid.repository.AirQualityLogsRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 @RestController
 public class InfoController {
 
@@ -27,11 +24,11 @@ public class InfoController {
         sb.append("<br>Logs count: ").append(logs.size());
 
         // get air quality index levels distribution
-        var aqIndexDistribution = new int[]{0,0,0,0,0,0};
+        var aqIndexDistribution = new int[]{0, 0, 0, 0, 0, 0};
         var countWithIndex = 0;
-        for(AirQualityLog log : logs){
+        for (AirQualityLog log : logs) {
             var indexLevel = log.getDetails().getHighestIndex();
-            if(indexLevel ==-1) continue;
+            if (indexLevel == -1) continue;
             countWithIndex++;
             aqIndexDistribution[indexLevel]++;
         }
@@ -39,7 +36,7 @@ public class InfoController {
         sb.append("<br>Logs with data: ").append(countWithIndex);
 
         sb.append("<br><br>Percentages of specific index levels:");
-        if(countWithIndex > 0) {
+        if (countWithIndex > 0) {
             for (int i = 0; i < aqIndexDistribution.length; i++) {
                 int count = aqIndexDistribution[i];
                 var percentage = (int) (100 * (count / (double) countWithIndex));
@@ -47,16 +44,11 @@ public class InfoController {
             }
         }
         sb.append("<br><br><hr>");
-        for(AirQualityLog log : logs){
+        for (AirQualityLog log : logs) {
             sb.append(log.getDetails().encode()).append(" , ");
         }
 
         return sb.toString();
-    }
-
-    @RequestMapping("/getSaved")
-    public Collection<AirQualityLog> getSavedLogs() {
-        return new ArrayList<>(aqLogsRepository.findAll());
     }
 
 }

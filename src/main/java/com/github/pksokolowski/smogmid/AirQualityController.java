@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -67,6 +69,11 @@ public class AirQualityController {
                 subIndexes[SENSOR_INDEX_C6H6],
                 subIndexes[SENSOR_INDEX_CO]
         );
+    }
+
+    @RequestMapping("/getAll")
+    public Collection<AirQualityLog> getAllAirQualityLogs() {
+        return new ArrayList<>(aqLogsRepository.findAll());
     }
 
 }
