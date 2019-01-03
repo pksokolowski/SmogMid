@@ -2,7 +2,6 @@ package com.github.pksokolowski.smogmid;
 
 import com.github.pksokolowski.smogmid.db.AirQualityLog;
 import com.github.pksokolowski.smogmid.repository.AirQualityLogsRepository;
-import com.github.pksokolowski.smogmid.scheduled.BackgroundUpdater;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,11 +12,9 @@ import java.util.Collection;
 public class InfoController {
 
     private AirQualityLogsRepository aqLogsRepository;
-    private BackgroundUpdater updater;
 
-    public InfoController(AirQualityLogsRepository aqLogsRepository, BackgroundUpdater updater) {
+    public InfoController(AirQualityLogsRepository aqLogsRepository) {
         this.aqLogsRepository = aqLogsRepository;
-        this.updater = updater;
     }
 
     @RequestMapping("/info")
@@ -39,12 +36,6 @@ public class InfoController {
 
     @RequestMapping("/getSaved")
     public Collection<AirQualityLog> getSavedLogs() {
-        return new ArrayList<>(aqLogsRepository.findAll());
-    }
-
-    @RequestMapping("/forceUpdate")
-    public Collection<AirQualityLog> simulateBgDownload() {
-        updater.updateAirQualityIndexes();
         return new ArrayList<>(aqLogsRepository.findAll());
     }
 
