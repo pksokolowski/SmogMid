@@ -23,10 +23,30 @@ public class InfoController {
 
         StringBuilder sb = new StringBuilder();
         sb.append("<body bgcolor=\"#000000\" text=\"white\"/>");
-        sb.append("Info page<br>");
-        sb.append("Logs count: ").append(logs.size());
+        sb.append("Info page");
+        sb.append("<br>Logs count: ").append(logs.size());
 
-        sb.append("<br><br>--------------<br>");
+        // get air quality index levels distribution
+        var aqIndexDistribution = new int[]{0,0,0,0,0,0};
+        var countWithIndex = 0;
+        for(AirQualityLog log : logs){
+            var indexLevel = log.getDetails().getHighestIndex();
+            if(indexLevel ==-1) continue;
+            countWithIndex++;
+            aqIndexDistribution[indexLevel]++;
+        }
+
+        sb.append("<br>Logs with data: ").append(countWithIndex);
+
+        sb.append("<br><br>Percentages of specific index levels:");
+        if(countWithIndex > 0) {
+            for (int i = 0; i < aqIndexDistribution.length; i++) {
+                int count = aqIndexDistribution[i];
+                var percentage = (int) (100 * (count / (double) countWithIndex));
+                sb.append(String.format("<br> %d : %d%%", i, percentage));
+            }
+        }
+        sb.append("<br><br><hr>");
         for(AirQualityLog log : logs){
             sb.append(log.getDetails().encode()).append(" , ");
         }
