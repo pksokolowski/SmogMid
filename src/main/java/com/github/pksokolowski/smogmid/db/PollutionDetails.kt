@@ -94,6 +94,15 @@ class PollutionDetails {
                 SensorsPresence.FLAG_SENSOR_C6H6,
                 SensorsPresence.FLAG_SENSOR_CO
         )
+
+        // ordering of sensors, for other classes to conveniently read the returned details arrays.
+        const val SENSOR_INDEX_PM10 = 0
+        const val SENSOR_INDEX_PM25 = 1
+        const val SENSOR_INDEX_O3 = 2
+        const val SENSOR_INDEX_NO2 = 3
+        const val SENSOR_INDEX_SO2 = 4
+        const val SENSOR_INDEX_C6H6 = 5
+        const val SENSOR_INDEX_CO = 6
     }
 
     override fun toString(): String {
