@@ -1,4 +1,4 @@
-package com.github.pksokolowski.smogmid.service;
+package com.github.pksokolowski.smogmid;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
