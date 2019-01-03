@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.github.pksokolowski.smogmid.db.PollutionDetails.*;
+
 @RestController
 public class AirQualityController {
 
@@ -50,11 +52,21 @@ public class AirQualityController {
 
         // assemble the response
         PollutionDetails details = new PollutionDetails();
-        for(AirQualityLog log : logs){
+        for (AirQualityLog log : logs) {
             details = details.combinedWith(log.getDetails());
         }
 
-        return new AQResponse(details.getHighestIndex(), details.encode());
+        var subIndexes = details.getDetailsArray();
+
+        return new AQResponse(details.getHighestIndex(),
+                subIndexes[SENSOR_INDEX_PM10],
+                subIndexes[SENSOR_INDEX_PM25],
+                subIndexes[SENSOR_INDEX_O3],
+                subIndexes[SENSOR_INDEX_NO2],
+                subIndexes[SENSOR_INDEX_SO2],
+                subIndexes[SENSOR_INDEX_C6H6],
+                subIndexes[SENSOR_INDEX_CO]
+        );
     }
 
 }

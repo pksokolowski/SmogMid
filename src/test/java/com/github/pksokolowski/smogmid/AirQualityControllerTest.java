@@ -38,7 +38,7 @@ public class AirQualityControllerTest {
         when(mockRepository.findAll()).thenReturn(data);
 
         var response = controller.getAQIndex(50.0, 20.0);
-        var expected = new AQResponse(1, 1111111);
+        var expected = new AQResponse(1, 1,1,1,1,1,1,1);
         assertEquals(expected, response);
     }
 
@@ -50,7 +50,7 @@ public class AirQualityControllerTest {
         when(mockRepository.findAll()).thenReturn(data);
 
         var response = controller.getAQIndex(50.0, 20.0);
-        var expected = new AQResponse(-1, 9999999);
+        var expected = new AQResponse(-1, -1,-1,-1,-1,-1,-1,-1);
         assertEquals(expected, response);
     }
 }
