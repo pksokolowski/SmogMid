@@ -76,6 +76,8 @@ class PollutionDetails {
         return SensorsPresence(sensorFlags)
     }
 
+    class PollutantData(val name: String, val indexInDetailsArray: Int)
+
     companion object {
         //const val LEVEL_UNKNOWN = 9
         const val NUMBER_OF_POSSIBLE_SENSORS = 7
@@ -93,6 +95,16 @@ class PollutionDetails {
                 SensorsPresence.FLAG_SENSOR_SO2,
                 SensorsPresence.FLAG_SENSOR_C6H6,
                 SensorsPresence.FLAG_SENSOR_CO
+        )
+
+        val POLLUTANTS_DATA = arrayOf(
+                PollutantData("PM10", 0),
+                PollutantData("PM25", 1),
+                PollutantData("O3", 2),
+                PollutantData("NO2", 3),
+                PollutantData("SO2", 4),
+                PollutantData("C6H6", 5),
+                PollutantData("CO", 6)
         )
 
         // ordering of sensors, for other classes to conveniently read the returned details arrays.

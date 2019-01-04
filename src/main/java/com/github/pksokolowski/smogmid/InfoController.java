@@ -1,6 +1,8 @@
 package com.github.pksokolowski.smogmid;
 
 import com.github.pksokolowski.smogmid.db.AirQualityLog;
+import com.github.pksokolowski.smogmid.db.PollutionDetails;
+import com.github.pksokolowski.smogmid.db.PollutionDetails.PollutantData;
 import com.github.pksokolowski.smogmid.repository.AirQualityLogsRepository;
 import com.github.pksokolowski.smogmid.repository.UpdateLogsRepository;
 import com.github.pksokolowski.smogmid.utils.TimeHelper;
@@ -42,7 +44,7 @@ public class InfoController {
 
         sb.append("<br>Logs with indexes: ").append(countWithIndex);
 
-        if(updateLog != null) {
+        if (updateLog != null) {
             final var updateTime = TimeHelper.getDateTimeStampString(updateLog.getTimeStamp());
             sb.append("<br>Update time: ").append(updateTime);
             sb.append("<br>Update duration in millis: ").append(updateLog.getDuration());
@@ -52,10 +54,39 @@ public class InfoController {
         if (countWithIndex > 0) {
             for (int i = 0; i < aqIndexDistribution.length; i++) {
                 int count = aqIndexDistribution[i];
-                var percentage = (int) (100 * (count / (double) countWithIndex));
-                sb.append(String.format("<br> %d : %d%%", i, percentage));
+                var percentage = calcPercentage(count, countWithIndex);
+                sb.append(String.format("<br> %d : %s", i, percentage));
             }
         }
+
+        sb.append("<br><br>Key pollutant stats for stations with AQ index level of 2 (moderate) or greater:");
+
+        // pollutants in array must be ordered as in PollutantDetails.getDetailsArray();
+        final var keyPollutants = new int[7];
+        var countOfIndexesOf2AndLarger = 0;
+        for (AirQualityLog log : logs) {
+            if (log.getIndexLevel() < 2) continue;
+            countOfIndexesOf2AndLarger++;
+            var max = -1;
+            var details = log.getDetails().getDetailsArray();
+            for (Integer detail : details) {
+                if (detail > max) {
+                    max = detail;
+                }
+            }
+            // increment counts for all pollutants reaching the max level observed
+            for (int i = 0; i < keyPollutants.length; i++) {
+                if (details[i] == max) keyPollutants[i]++;
+            }
+        }
+        for (PollutantData pollutant : PollutionDetails.Companion.getPOLLUTANTS_DATA()) {
+            var name = pollutant.getName();
+            var count = keyPollutants[pollutant.getIndexInDetailsArray()];
+            var percentage = calcPercentage(count, countOfIndexesOf2AndLarger);
+            sb.append(String.format("<br>%s : %d (%s)", name, count, percentage));
+        }
+
+
         sb.append("<br><br><hr>Data from individual stations (click at a station to see it on a map)");
         for (AirQualityLog log : logs) {
             var id = log.getStationId();
@@ -73,4 +104,9 @@ public class InfoController {
         return sb.toString();
     }
 
+    private String calcPercentage(int numerator, int denominator) {
+        if(denominator == 0) return "[div by zero]";
+        var result = (int) (100 * (numerator / (double) denominator));
+        return String.format("%d%%", result);
+    }
 }
