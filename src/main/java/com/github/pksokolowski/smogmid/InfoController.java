@@ -34,13 +34,13 @@ public class InfoController {
         var aqIndexDistribution = new int[]{0, 0, 0, 0, 0, 0};
         var countWithIndex = 0;
         for (AirQualityLog log : logs) {
-            var indexLevel = log.getDetails().getHighestIndex();
+            var indexLevel = log.getIndexLevel();
             if (indexLevel == -1) continue;
             countWithIndex++;
             aqIndexDistribution[indexLevel]++;
         }
 
-        sb.append("<br>Logs with data: ").append(countWithIndex);
+        sb.append("<br>Logs with indexes: ").append(countWithIndex);
 
         if(updateLog != null) {
             final var updateTime = TimeHelper.getDateTimeStampString(updateLog.getTimeStamp());
@@ -59,7 +59,7 @@ public class InfoController {
         sb.append("<br><br><hr>Data from individual stations (click at a station to see it on a map)");
         for (AirQualityLog log : logs) {
             var id = log.getStationId();
-            var index = log.getDetails().getHighestIndex();
+            var index = log.getIndexLevel();
             var details = log.getDetails().encode();
             var location = log.getLocation();
             var mapAddress = String.format(Locale.US,

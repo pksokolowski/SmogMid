@@ -20,7 +20,7 @@ public class AQIDataConverterTest {
         var station = new StationModel(110, "50.000", "20.000");
 
         var result = AQIDataConverter.Companion.toAirQualityLog(aqi, station);
-        var expected = new AirQualityLog(110, new PollutionDetails(1234509), new LatLng(50.0, 20.0));
+        var expected = new AirQualityLog(110, 5, new PollutionDetails(1234509), new LatLng(50.0, 20.0));
 
         assertEquals(expected, result);
     }
@@ -31,7 +31,7 @@ public class AQIDataConverterTest {
         var station = new StationModel(120, "50.000", "20.000");
 
         var result = AQIDataConverter.Companion.toAirQualityLog(aqi, station);
-        var expected = new AirQualityLog(120, new PollutionDetails(9999999), new LatLng(50.0, 20.0));
+        var expected = new AirQualityLog(120, -1, new PollutionDetails(9999999), new LatLng(50.0, 20.0));
 
         assertEquals(expected, result);
     }
@@ -42,7 +42,7 @@ public class AQIDataConverterTest {
         var station = new StationModel(600, "55.000", "25.000");
 
         var result = AQIDataConverter.Companion.toAirQualityLog(aqi, station);
-        var expected = new AirQualityLog(600, new PollutionDetails(9999999), new LatLng(55.0, 25.0));
+        var expected = new AirQualityLog(600, -1, new PollutionDetails(9999999), new LatLng(55.0, 25.0));
 
         assertEquals(expected, result);
     }

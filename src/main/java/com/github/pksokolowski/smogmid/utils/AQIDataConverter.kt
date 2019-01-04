@@ -19,9 +19,10 @@ class AQIDataConverter {
             )
 
             val id = station.id.toLong()
+            val indexLevel = model.stIndexLevel?.id ?: -1
             val location = LatLng(station.gegrLat.toDouble(), station.gegrLon.toDouble())
 
-            return AirQualityLog(id, details, location)
+            return AirQualityLog(id, indexLevel, details, location)
         }
     }
 }

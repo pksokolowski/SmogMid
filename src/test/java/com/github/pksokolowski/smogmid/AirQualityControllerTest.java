@@ -32,8 +32,8 @@ public class AirQualityControllerTest {
     @Test
     public void prefersNearestStation(){
         var data = Arrays.asList(
-                new AirQualityLog(100, new PollutionDetails(1111111), new LatLng(50.001, 20.001)),
-                new AirQualityLog(200, new PollutionDetails(2222222), new LatLng(50.002, 20.002))
+                new AirQualityLog(100, 1, new PollutionDetails(1111111), new LatLng(50.001, 20.001)),
+                new AirQualityLog(200, 2, new PollutionDetails(2222222), new LatLng(50.002, 20.002))
         );
         when(mockRepository.findAll()).thenReturn(data);
 
@@ -45,7 +45,7 @@ public class AirQualityControllerTest {
     @Test
     public void returnsNoIndexWhenNoDataIsAvailableForTheRequestedLocation(){
         var data = Collections.singletonList(
-                new AirQualityLog(100, new PollutionDetails(1111111), new LatLng(60.001, 30.001))
+                new AirQualityLog(100, 1, new PollutionDetails(1111111), new LatLng(60.001, 30.001))
         );
         when(mockRepository.findAll()).thenReturn(data);
 
