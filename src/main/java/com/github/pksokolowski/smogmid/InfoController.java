@@ -2,6 +2,8 @@ package com.github.pksokolowski.smogmid;
 
 import com.github.pksokolowski.smogmid.db.AirQualityLog;
 import com.github.pksokolowski.smogmid.repository.AirQualityLogsRepository;
+import com.github.pksokolowski.smogmid.repository.UpdateLogsRepository;
+import com.github.pksokolowski.smogmid.utils.TimeHelper;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,14 +13,17 @@ import java.util.Locale;
 public class InfoController {
 
     private AirQualityLogsRepository aqLogsRepository;
+    private UpdateLogsRepository updateLogsRepository;
 
-    public InfoController(AirQualityLogsRepository aqLogsRepository) {
+    public InfoController(AirQualityLogsRepository aqLogsRepository, UpdateLogsRepository updateLogsRepository) {
         this.aqLogsRepository = aqLogsRepository;
+        this.updateLogsRepository = updateLogsRepository;
     }
 
     @RequestMapping("/info")
     public String getInfo() {
         var logs = aqLogsRepository.findAll();
+        var updateLog = updateLogsRepository.findTopByOrderByTimeStampDesc();
 
         StringBuilder sb = new StringBuilder();
         sb.append("<body bgcolor=\"#000000\" text=\"white\" link=\"white\" vlink=\"beige\"/>");
@@ -36,6 +41,12 @@ public class InfoController {
         }
 
         sb.append("<br>Logs with data: ").append(countWithIndex);
+
+        if(updateLog != null) {
+            final var updateTime = TimeHelper.getDateTimeStampString(updateLog.getTimeStamp());
+            sb.append("<br>Update time: ").append(updateTime);
+            sb.append("<br>Update duration in millis: ").append(updateLog.getDuration());
+        }
 
         sb.append("<br><br>Percentages of specific index levels:");
         if (countWithIndex > 0) {
