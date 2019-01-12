@@ -7,6 +7,7 @@ import com.github.pksokolowski.smogmid.utils.LatLng;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -22,12 +23,8 @@ public class AirQualityControllerTest {
     @Mock
     AirQualityLogsRepository mockRepository;
 
+    @InjectMocks
     private AirQualityController controller;
-
-    @Before
-    public void prepare(){
-        controller = new AirQualityController(mockRepository);
-    }
 
     @Test
     public void prefersNearestStation(){
