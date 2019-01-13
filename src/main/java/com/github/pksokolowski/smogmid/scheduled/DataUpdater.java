@@ -34,7 +34,7 @@ public class DataUpdater {
      * It removes the old logs from the database and replaces them with newly downloaded ones.
      */
     @Scheduled(cron = "0 30 * * * ?")
-    private void updateAirQualityIndexes() {
+    public void updateAirQualityIndexes() {
         synchronized (lock) {
             final var startStamp = Calendar.getInstance().getTimeInMillis();
             final var logs = aqiDownloader.getAirQualityLogs();
