@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Configuration;
 
 @Aspect
 @Configuration
-public class DownloadPerformanceAspect {
+public class ExecutionPerformanceAspect {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Around("execution(* com.github.pksokolowski.smogmid.scheduled.DataUpdater.updateAirQualityIndexes(..))")
-    public void aroundDownload(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("com.github.pksokolowski.smogmid.performance.CommonJoinPointConfig.trackPerformanceAnnotation()")
+    public void aroundExecution(ProceedingJoinPoint joinPoint) throws Throwable {
         var startTime = System.currentTimeMillis();
         joinPoint.proceed();
         var duration = System.currentTimeMillis() - startTime;
 
-        logger.info("Data update routine executed, took {} milliseconds", duration);
+        logger.info("{} took {} milliseconds", joinPoint.toShortString(), duration);
     }
 }

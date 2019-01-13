@@ -2,6 +2,7 @@ package com.github.pksokolowski.smogmid.scheduled;
 
 import com.github.pksokolowski.smogmid.api.AQIDownloader;
 import com.github.pksokolowski.smogmid.db.UpdateLog;
+import com.github.pksokolowski.smogmid.performance.TrackPerformance;
 import com.github.pksokolowski.smogmid.repository.AirQualityLogsRepository;
 import com.github.pksokolowski.smogmid.repository.UpdateLogsRepository;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -34,6 +35,7 @@ public class DataUpdater {
      * It removes the old logs from the database and replaces them with newly downloaded ones.
      */
     @Scheduled(cron = "0 30 * * * ?")
+    @TrackPerformance
     public void updateAirQualityIndexes() {
         synchronized (lock) {
             final var startStamp = Calendar.getInstance().getTimeInMillis();
