@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Info</title>
+</head>
+<body>
+<font th:text="'Logs count: ' + ${logsCount}"></font><br>
+<font th:text="'Logs with indexes: ' + ${logsWithIndexes}"></font><br>
+<font th:text="'Update time: ' + ${updateTime}"></font><br>
+<font th:text="'Update duration: ' + ${updateDuration} + ' ms'"></font><br>
+
+<p>Percentages at specific indexes:</p>
+<table>
+    <thead>
+    <tr>
+        <th> Index </th>
+        <th> Percentage of stations </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${indexLevelDistribution.empty}">
+        <td colspan="2"> no data </td>
+    </tr>
+    <tr th:each="percentageInfo : ${indexLevelDistribution}">
+        <td><span th:text="${percentageInfo.index}"> index level </span></td>
+        <td><span th:text="${percentageInfo.percentage} + '%'"> percentage of stations </span></td>
+    </tr>
+    </tbody>
+</table>
+
+<p>Key pollutant stats for stations with AQ index level of 2 (moderate) or greater:</p>
+<table>
+    <thead>
+    <tr>
+        <th> Parameter name </th>
+        <th> Number and percentage of stations </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${keyPollutants.empty}">
+        <td colspan="2"> no data </td>
+    </tr>
+    <tr th:each="pollutantInfo : ${keyPollutants}">
+        <td><span th:text="${pollutantInfo.name}"> parameter </span></td>
+        <td><span th:text="${pollutantInfo.count} + ' (' + ${pollutantInfo.percentage} + '%)'"> number and percentage of stations </span></td>
+    </tr>
+    </tbody>
+</table>
+
+<p>Data from individual stations (click at a station to see it on a map):</p>
+<table>
+    <thead>
+    <tr>
+        <th> details </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${details.empty}">
+        <td colspan="2"> no data </td>
+    </tr>
+    <tr th:each="logInfo : ${details}">
+        <td> <a th:href="@{${logInfo.url}}"> <span th:text="${logInfo.info}"> index level </span></a></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

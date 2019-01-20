@@ -1,8 +1,8 @@
 package com.github.pksokolowski.smogmid.info;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class InfoController {
@@ -14,8 +14,15 @@ public class InfoController {
     }
 
     @GetMapping("/info")
-    @ResponseBody
-    public String getInfo(){
-        return infoService.getInfo();
+    public String getInfoView( Model model){
+        var info = infoService.getInfo();
+        model.addAttribute("logsCount", info.getLogsCount());
+        model.addAttribute("logsWithIndexes", info.getLogsWithIndexes());
+        model.addAttribute("updateTime", info.getUpdateTime());
+        model.addAttribute("updateDuration", info.getUpdateDuration());
+        model.addAttribute("indexLevelDistribution", info.getIndexLevelDistribution());
+        model.addAttribute("keyPollutants", info.getKeyPollutants());
+        model.addAttribute("details", info.getDetails());
+        return "info";
     }
 }
