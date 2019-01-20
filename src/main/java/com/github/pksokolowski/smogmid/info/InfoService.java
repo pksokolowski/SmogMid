@@ -1,4 +1,4 @@
-package com.github.pksokolowski.smogmid;
+package com.github.pksokolowski.smogmid.info;
 
 import com.github.pksokolowski.smogmid.db.AirQualityLog;
 import com.github.pksokolowski.smogmid.db.PollutionDetails;
@@ -7,24 +7,22 @@ import com.github.pksokolowski.smogmid.db.UpdateLog;
 import com.github.pksokolowski.smogmid.repository.AirQualityLogsRepository;
 import com.github.pksokolowski.smogmid.repository.UpdateLogsRepository;
 import com.github.pksokolowski.smogmid.utils.TimeHelper;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
 
-@RestController
-public class InfoController {
+@Service
+public class InfoService {
 
     private AirQualityLogsRepository aqLogsRepository;
     private UpdateLogsRepository updateLogsRepository;
 
-    public InfoController(AirQualityLogsRepository aqLogsRepository, UpdateLogsRepository updateLogsRepository) {
+    public InfoService(AirQualityLogsRepository aqLogsRepository, UpdateLogsRepository updateLogsRepository) {
         this.aqLogsRepository = aqLogsRepository;
         this.updateLogsRepository = updateLogsRepository;
     }
 
-    @RequestMapping("/info")
     public String getInfo() {
         var logs = aqLogsRepository.findAll();
         var updateLog = updateLogsRepository.findTopByOrderByTimeStampDesc();
