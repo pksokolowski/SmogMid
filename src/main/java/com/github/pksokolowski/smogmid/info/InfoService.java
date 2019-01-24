@@ -115,7 +115,7 @@ public class InfoService {
                     location.getLongitude());
 
             var linkText = String.format("%d: %d  (%d)", id, index, details);
-            results.add(new Info.DetailsInfo(linkText, mapAddress));
+            results.add(new Info.DetailsInfo(id, index, details, mapAddress));
         }
         return results;
     }

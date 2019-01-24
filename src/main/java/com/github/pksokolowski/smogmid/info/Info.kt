@@ -11,5 +11,5 @@ class Info(
 ) {
     class PercentageInfo(val index: Int, val percentage: Int)
     class KeyPollutantsInfo(val name: String, val count: Int, val percentage: Int)
-    class DetailsInfo(val info: String, val url: String)
+    class DetailsInfo(val id: Long, val index: Int, val details: Int, val url: String)
 }

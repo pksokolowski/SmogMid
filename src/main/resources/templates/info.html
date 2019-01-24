@@ -48,11 +48,13 @@
     </tbody>
 </table>
 
-<p>Data from individual stations (click at a station to see it on a map):</p>
+<p>Data from individual stations (click at station ID to see it on a map):</p>
 <table>
     <thead>
     <tr>
-        <th> details </th>
+        <th> Id </th>
+        <th> Index </th>
+        <th> Details </th>
     </tr>
     </thead>
     <tbody>
@@ -60,7 +62,9 @@
         <td colspan="2"> no data </td>
     </tr>
     <tr th:each="logInfo : ${details}">
-        <td> <a th:href="@{${logInfo.url}}"> <span th:text="${logInfo.info}"> index level </span></a></td>
+        <td><a th:href="@{${logInfo.url}}"><span th:text="${logInfo.id}"> Id </span></a></td>
+        <td><span th:text="${logInfo.index}"> Index </span></td>
+        <td><span th:text="${logInfo.details}"> Details </span></td>
     </tr>
     </tbody>
 </table>
