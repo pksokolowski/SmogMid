@@ -32,7 +32,7 @@ class DataUpdater(
         scopesProvider.aqUpdatesScope.launch {
             mutex.withLock {
                 val startStamp = Calendar.getInstance().timeInMillis
-                val logs = aqiDownloader.airQualityLogs
+                val logs = aqiDownloader.getAirQualityLogs()
                 val endStamp = Calendar.getInstance().timeInMillis
                 val duration = endStamp - startStamp
                 val updateLog = UpdateLog(startStamp, duration)

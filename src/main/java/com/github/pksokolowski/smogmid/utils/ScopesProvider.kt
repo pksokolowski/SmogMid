@@ -8,6 +8,6 @@ import java.util.concurrent.Executors
 
 @Component
 class ScopesProvider {
-    private val aqUpdatesDispatcher = Executors.newFixedThreadPool(1).asCoroutineDispatcher()
+    val aqUpdatesDispatcher = Executors.newFixedThreadPool(64).asCoroutineDispatcher()
     val aqUpdatesScope = CoroutineScope(aqUpdatesDispatcher + SupervisorJob())
 }
